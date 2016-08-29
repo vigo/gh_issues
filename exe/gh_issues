@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/gh_issues/cli'
+GhIssues::CLI.start(ARGV)
