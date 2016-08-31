@@ -6,6 +6,8 @@ require 'gh_issues'
 module GhIssues
   class CLI < Thor
     class_option :color, :type => :boolean
+    class_option :sort_by, default: 'name', banner: "count"
+    class_option :sort_order, default: 'asc', banner: "desc"
 
     desc "version", "Version information"
     def version
@@ -13,8 +15,6 @@ module GhIssues
     end
     
     desc "all", "List all open issues, grouped by owner"
-    option :sort_by, default: 'name', banner: "count"
-    option :sort_order, default: 'asc', banner: "desc"
     def all
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       sort_by = ['name', 'count'].include?(options[:sort_by]) ? options[:sort_by] : 'name'
@@ -28,8 +28,6 @@ module GhIssues
     end
 
     desc "list OWNER_NAME", "List issues belongs to owner"
-    option :sort_by, default: 'name', banner: "count"
-    option :sort_order, default: 'asc', banner: "desc"
     def list(owner)
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       sort_by = ['name', 'count'].include?(options[:sort_by]) ? options[:sort_by] : 'name'
