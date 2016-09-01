@@ -9,9 +9,9 @@ amount of repos, this tool will become more handy.
 
 I need this tool for couple of reasons:
 
-1. I need to list all issues of my all repositories without knowing the repo url.
-1. I need to list a specific issue from a specific repo with full details.
-1. I need to see my current issues which are related to GitHub account.
+1. list all issues of my all repositories without knowing the repo url.
+1. list a specific issue from a specific repo with full details.
+1. see my current issues which are related to GitHub account.
 
 ## Installation
 
