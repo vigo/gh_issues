@@ -46,22 +46,29 @@ module GhIssues
         all_issues[requested_owner]
       else
         raise ::GhIssues::InvalidOwnerError, "Invalid owner requested"
+        exit
       end
     end
   end
   
   def self.show_repos_issues(repo)
     if ::GhIssues.ghi_access_available?
-      issues = []
-      @@client.issues(repo).each do |issue|
-        issues << {
-          number: issue[:number],
-          title: issue[:title],
-          html_url: issue[:html_url],
-          body: issue[:body],
-        }
+      begin
+        issues = []
+        @@client.issues(repo).each do |issue|
+          issues << {
+            number: issue[:number],
+            title: issue[:title],
+            html_url: issue[:html_url],
+            body: issue[:body],
+          }
+        end
+        issues
+      rescue Octokit::InvalidRepository => error_message
+        puts error_message
+        exit
       end
-      issues
+      
     end
   end
   

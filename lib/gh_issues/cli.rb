@@ -31,6 +31,15 @@ module GhIssues
     end
     
     desc "all", "List all open issues, grouped by owner"
+    long_desc <<-LONGDESC
+      List all available repos with open issues according to your GitHub Token.
+      Do not forget to set your `GH_ISSUES_TOKEN` environment variable.\n
+      
+      $ gh_issues all\n
+      $ gh_issues all --sort-by=count\n
+      $ gh_issues all --sort-by=count --sort-order=desc\n
+      $ gh_issues all --sort-by=count --sort-order=desc --color
+    LONGDESC
     def all
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       sort_by = ['name', 'count'].include?(options[:sort_by]) ? options[:sort_by] : 'name'
@@ -44,6 +53,15 @@ module GhIssues
     end
 
     desc "list OWNER_NAME", "List issues belongs to owner"
+    long_desc <<-LONGDESC
+      List issues of selected repo. You need to get all issues first. You can
+      only list your repos issues.\n
+      
+      $ gh_issues list pyistanbul\n
+      $ gh_issues list pyistanbul --sort-by=count\n
+      $ gh_issues list pyistanbul --sort-by=count --sort-order=desc\n
+      $ gh_issues list pyistanbul --sort-by=count --sort-order=desc --color
+    LONGDESC
     def list(owner)
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       sort_by = ['name', 'count'].include?(options[:sort_by]) ? options[:sort_by] : 'name'
@@ -64,6 +82,14 @@ module GhIssues
     end
     
     desc "show REPO_NAME [ISSUE_NUMBER]", "Show issues of REPO_NAME or ISSUE"
+    long_desc <<-LONGDESC
+      Show issues of selected repo. If you specify issue number, you'll get
+      details of that issue.\
+      
+      $ gh_issues show pyistanbul/website
+      $ gh_issues show pyistanbul/website 48
+      $ gh_issues show pyistanbul/website 48 --color
+    LONGDESC
     def show(repo, issue_number=0)
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       issue_number = issue_number.to_i
