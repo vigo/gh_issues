@@ -1,9 +1,25 @@
 require "bundler/setup"
 
 require 'thor'
+require 'terminal-table'
+require 'date'
+require 'time_difference'
+require 'redcarpet'
+require 'redcarpet/render_strip'
 require 'gh_issues'
 
+TERMINAL_WIDTH = `tput cols`.strip.to_i
+WRAP_TEXT_AT = 78
+
 module GhIssues
+  class TextRenderer < Redcarpet::Render::StripDown
+    def image(link, title, content)
+      link = "link" if link.length > WRAP_TEXT_AT
+      content &&= content + " "
+      "[#{content}]-[#{link}]"
+    end
+  end
+  
   class CLI < Thor
     class_option :color, :type => :boolean
     class_option :sort_by, default: 'name', banner: "count"
@@ -33,17 +49,72 @@ module GhIssues
       sort_by = ['name', 'count'].include?(options[:sort_by]) ? options[:sort_by] : 'name'
       sort_order = ['asc', 'desc'].include?(options[:sort_order]) ? options[:sort_order] : 'asc'
       begin
-          owner_issues = GhIssues.list_owner_issues(owner)
-      rescue InvalidOwnerError => error_message
+        owner_issues = GhIssues.list_owner_issues(owner)
+      rescue GhIssues::InvalidOwnerError => error_message
         puts error_message
         exit
       end
       if owner_issues.count > 0
-        m = {}
-        m[owner] = owner_issues
-        puts print_issue_list(m, sort_by: sort_by, sort_order: sort_order)
+        only_owners_data = {}
+        only_owners_data[owner] = owner_issues
+        puts print_issue_list(only_owners_data, sort_by: sort_by, sort_order: sort_order)
       else
         puts "Hooray! You have no issue to display..."
+      end
+    end
+    
+    desc "show REPO_NAME [ISSUE_NUMBER]", "Show issues of REPO_NAME or ISSUE"
+    def show(repo, issue_number=0)
+      ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
+      issue_number = issue_number.to_i
+      
+      if issue_number > 0
+        issue = GhIssues.get_issue(repo, issue_number)
+        table = Terminal::Table.new do |t|
+          t.add_row [colorize("Repo/Issue", :yellow), colorize("#{repo}/#{issue_number}", :white)]
+          t.add_separator
+          t.add_row [colorize("Title", :yellow), issue[:title]]
+          t.add_separator
+          t.add_row [colorize("Opener", :yellow), issue[:user]]
+          t.add_row [colorize("Labes", :yellow), issue[:labels].join(',')] if issue[:labels].count > 0
+          t.add_row [colorize("Assignees", :yellow), issue[:assignees].join(', ')] if issue[:assignees].count > 0
+          t.add_separator
+
+          created_at = issue[:created_at].strftime("%d %B %Y, %H:%M, %A")
+          updated_at = issue[:updated_at].strftime("%d %B %Y, %H:%M, %A")
+
+          now = Time.now
+          created_at_diff = TimeDifference.between(now, issue[:created_at]).in_days.to_i
+          updated_at_diff = TimeDifference.between(now, issue[:updated_at]).in_days.to_i
+          
+          t.add_row [colorize("Created at", :yellow), "#{created_at} (#{created_at_diff} days ago)"]
+          t.add_row [colorize("Updated at", :yellow), "#{updated_at} (#{updated_at_diff} days ago)"]
+          if issue[:body].length > 0
+            markdown = Redcarpet::Markdown.new(GhIssues::TextRenderer)
+            body_text = markdown.render(issue[:body])
+            t.add_separator
+            t.add_row [colorize("Body", :yellow), wrap(body_text, WRAP_TEXT_AT)]
+          end
+        end
+        puts table
+      else
+        issues = GhIssues.show_repos_issues(repo)
+        if issues.count > 0
+          table = Terminal::Table.new do |t|
+            t.add_row ["", colorize(repo, :yellow), colorize("Url", :yellow)]
+            t.add_separator
+            issues.each do |issue|
+              t.add_row [
+                {value: colorize("##{issue[:number]}", :white), alignment: :left},
+                issue[:title],
+                "#{issue[:html_url]}",
+              ]
+            end
+          end
+          puts table
+        else
+          puts "Hooray! You have no issue here..."
+        end
       end
     end
     
@@ -70,6 +141,10 @@ module GhIssues
         table
       end
       
+      def wrap(s, width=WRAP_TEXT_AT)
+        s.gsub(/(.{1,#{width}})(\s+|\Z)/, "\\1\n")
+      end
+
       def colorize(text, color)
         if ENV['GH_ISSUES_COLORIZE']
            set_color(text, color)
