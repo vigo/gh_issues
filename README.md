@@ -29,6 +29,10 @@ use existing token of yours. Set your environment variable as:
 
 ![GitHub token settings](github_token.png)
 
+If you don’t want this app to access your **private repos** please check only: **public_repo**
+
+***
+
 ```bash
 export GH_ISSUES_TOKEN=your-token-here
 ```
@@ -40,21 +44,20 @@ export GH_ISSUES_COLORIZE=1
 
 All commands:
 
-```bash
-Commands:
-  gh_issues all                            # List all open issues, grouped by owner
-  gh_issues help [COMMAND]                 # Describe available commands or one specific command
-  gh_issues list OWNER_NAME                # List issues belongs to owner
-  gh_issues show REPO_NAME [ISSUE_NUMBER]  # Show issues of REPO_NAME or ISSUE
-  gh_issues version                        # Version information
+    Commands:
+      gh_issues all                            # List all open issues, grouped by owner
+      gh_issues help [COMMAND]                 # Describe available commands or one specific command
+      gh_issues list OWNER_NAME                # List issues belongs to owner
+      gh_issues show REPO_NAME [ISSUE_NUMBER]  # Show issues of REPO_NAME or ISSUE
+      gh_issues version                        # Version information
 
-Options:
-  [--color], [--no-color]  
-  [--sort-by=count]        
-                           # Default: name
-  [--sort-order=desc]      
-                           # Default: asc
-```
+    Options:
+      [--color], [--no-color]  
+      [--sort-by=count]        
+                               # Default: name
+      [--sort-order=desc]      
+                               # Default: asc
+
 
 ### all
 
