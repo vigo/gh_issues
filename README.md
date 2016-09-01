@@ -26,6 +26,8 @@ gem install gh_issues
 You need to create a [GitHub token](https://github.com/settings/tokens/new) or 
 use existing token of yours. Set your environment variable as:
 
+![GitHub token settings](github_token.png)
+
 ```bash
 export GH_ISSUES_TOKEN=your-token-here
 ```
