@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/version-0.1.0-yellow.svg)
+![Version](https://img.shields.io/badge/version-0.1.1-yellow.svg)
 
 # GitHub Issues
 
