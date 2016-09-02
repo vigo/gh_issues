@@ -10,6 +10,7 @@ require 'gh_issues'
 
 TERMINAL_WIDTH = `tput cols`.strip.to_i
 WRAP_TEXT_AT = 78
+DEFAULT_DATE_FORMAT = ENV['GH_ISSUES_DATE_FORMAT'] || "%d %B %Y, %H:%M, %A"
 
 module GhIssues
   class TextRenderer < Redcarpet::Render::StripDown
@@ -106,8 +107,8 @@ module GhIssues
           t.add_row [colorize("Assignees", :yellow), issue[:assignees].join(', ')] if issue[:assignees].count > 0
           t.add_separator
 
-          created_at = issue[:created_at].strftime("%d %B %Y, %H:%M, %A")
-          updated_at = issue[:updated_at].strftime("%d %B %Y, %H:%M, %A")
+          created_at = issue[:created_at].strftime(DEFAULT_DATE_FORMAT)
+          updated_at = issue[:updated_at].strftime(DEFAULT_DATE_FORMAT)
 
           now = Time.now
           created_at_diff = TimeDifference.between(now, issue[:created_at]).in_days.to_i

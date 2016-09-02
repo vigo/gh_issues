@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/vigo/gh-issues.svg?branch=master)](https://travis-ci.org/vigo/gh-issues)
-![Version](https://img.shields.io/badge/version-0.1.1-yellow.svg)
+![Version](https://img.shields.io/badge/version-0.2.0-yellow.svg)
 
 # GitHub Issues
 
@@ -38,9 +38,20 @@ export GH_ISSUES_TOKEN=your-token-here
 ```
 
 If you like to get colored output by default, set:
+
 ```bash
 export GH_ISSUES_COLORIZE=1
 ```
+
+You can change your date format via `GH_ISSUES_DATE_FORMAT` variable. Default
+value is : `%d %B %Y, %H:%M, %A`. This is `Time.strftime` format. More
+information can be found [here](http://ruby-doc.org/core-2.3.0/Time.html#method-i-strftime).
+Set your default such as:
+
+```bash
+export GH_ISSUES_DATE_FORMAT='%A %B %-d, %Y,  %H:%M' # example
+```
+
 
 All commands:
 
@@ -195,7 +206,7 @@ Result:
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, 
-run `rake test` to run the tests. You can also run `bin/console` for an 
+run `bundle exec rake test` to run the tests. You can also run `bin/console` for an 
 interactive prompt that will allow you to experiment.
 
 To install this gem onto your local machine, run `bundle exec rake install`. To 
