@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/vigo/gh-issues.svg?branch=master)](https://travis-ci.org/vigo/gh-issues)
-![Version](https://img.shields.io/badge/version-0.2.0-yellow.svg)
+![Version](https://img.shields.io/badge/version-0.3.0-yellow.svg)
 
 # GitHub Issues
 
@@ -149,11 +149,13 @@ gh_issues list pyistanbul
 
 ### show
 
-Show selected repo’s issues:
+Show selected repo’s issues or show current GitHub repo’s. If you are in a
+folder with a git repo which has github **origin** you don’t need to type
+repo name!
 
 ```bash
+gh_issues show   # you are in a git repo, origin is pointed to GitHub
 gh_issues show pyistanbul/website
-
 ```
 
 Here is the list:
@@ -177,7 +179,9 @@ If you pass **issue number** as parameter after repo name, you get the issue det
 
 ```bash
 gh_issues show pyistanbul/website 48
+gh_issues show 2 # you are in a git repo, origin is pointed to GitHub, issue #2
 ```
+
 Result:
 
     +------------+--------------------------------------------------------------------------------+

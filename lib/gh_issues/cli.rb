@@ -82,19 +82,42 @@ module GhIssues
       end
     end
     
-    desc "show REPO_NAME [ISSUE_NUMBER]", "Show issues of REPO_NAME or ISSUE"
+    desc "show [REPO_NAME] [ISSUE_NUMBER]", "Show issues of REPO_NAME / current repo or ISSUE"
     long_desc <<-LONGDESC
-      Show issues of selected repo. If you specify issue number, you'll get
+      Show issues of selected repo or current repo if you are in a git repository
+      with GitHub origin pointed at. If you specify issue number, you'll get
       details of that issue.\
       
+      $ gh_issues show   # current dir/github repo
+      $ gh_issues show 2 # current dir/github repo issue 2 
       $ gh_issues show pyistanbul/website
       $ gh_issues show pyistanbul/website 48
       $ gh_issues show pyistanbul/website 48 --color
     LONGDESC
-    def show(repo, issue_number=0)
+    def show(repo=nil, issue_number=0)
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
-      issue_number = issue_number.to_i
       
+      in_github_repo = false
+      current_repo = nil
+      origin_url=`git remote get-url origin 2>/dev/null`.strip
+      unless origin_url.empty?
+        in_github_repo = true if origin_url.split(':')[0] =~ /github.com/
+      end
+      
+      current_repo = origin_url.split(':')[1].split('.')[0] if in_github_repo
+      
+      unless repo
+        repo = current_repo if current_repo
+      else
+        if is_numeric?(repo)
+          issue_number = repo.to_i
+          repo = current_repo
+        end
+      end
+      issue_number = issue_number.to_i
+
+      puts "Listing current GitHub repo: #{repo}" if repo == current_repo
+
       if issue_number > 0
         issue = GhIssues.get_issue(repo, issue_number)
         table = Terminal::Table.new do |t|
@@ -113,7 +136,7 @@ module GhIssues
           now = Time.now
           created_at_diff = TimeDifference.between(now, issue[:created_at]).in_days.to_i
           updated_at_diff = TimeDifference.between(now, issue[:updated_at]).in_days.to_i
-          
+
           t.add_row [colorize("Created at", :yellow), "#{created_at} (#{created_at_diff} days ago)"]
           t.add_row [colorize("Updated at", :yellow), "#{updated_at} (#{updated_at_diff} days ago)"]
           if issue[:body].length > 0
@@ -146,6 +169,10 @@ module GhIssues
     end
     
     no_commands do
+      def is_numeric?(input)
+        input.to_f.to_s == input.to_s || input.to_i.to_s == input.to_s
+      end
+      
       def print_issue_list(data, **options)
         sort_by = options[:sort_by]
         sort_order = options[:sort_order]
