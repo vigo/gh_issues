@@ -1,5 +1,3 @@
-require "bundler/setup"
-
 require 'thor'
 require 'terminal-table'
 require 'date'

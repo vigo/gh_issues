@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/vigo/gh-issues.svg?branch=master)](https://travis-ci.org/vigo/gh-issues)
-![Version](https://img.shields.io/badge/version-0.3.0-yellow.svg)
+![Version](https://img.shields.io/badge/version-0.3.2-yellow.svg)
 
 # GitHub Issues
 
