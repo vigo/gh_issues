@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/vigo/gh-issues.svg?branch=master)](https://travis-ci.org/vigo/gh-issues)
-![Version](https://img.shields.io/badge/version-0.4.0-yellow.svg)
+![Version](https://img.shields.io/badge/version-0.4.1-yellow.svg)
 
 # GitHub Issues
 
@@ -206,6 +206,20 @@ Result:
     |            | [screen shot 2015-05-07 at 11 19 31 pm ]-[link]                                |
     +------------+--------------------------------------------------------------------------------+
     
+Also, if the selected issue has comment(s):
+
+    +------------+---------------------------------------------------------+
+    |                             Comments (2)                             |
+    +------------+---------------------------------------------------------+
+    | vigo       | Comment 1                                               |
+    |            | ---                                                     |
+    |            | 03 September 2016, 17:09, Saturday (1 day ago)          |
+    +------------+---------------------------------------------------------+
+    | vigo       | Comment 2                                               |
+    |            | ---                                                     |
+    |            | 03 September 2016, 17:09, Saturday (1 day ago)          |
+    +------------+---------------------------------------------------------+
+
 
 ## Development
 

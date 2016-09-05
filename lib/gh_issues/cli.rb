@@ -147,13 +147,12 @@ module GhIssues
           if issue[:comments].length > 0
             t.add_separator
             t.add_row [{value: "#{colorize(pluralize('Comment', 'Comments', issue[:comments].length), :yellow)} (#{issue[:comments].length})", colspan: 2, alignment: :center}]
-            t.add_separator
             issue[:comments].each do |comment|
+              t.add_separator
               comment_created_at = comment[:created_at].strftime(DEFAULT_DATE_FORMAT)
               comment_created_at_diff = TimeDifference.between(now, comment[:created_at]).in_days.to_i
               comment_text = "#{markdown.render(comment[:body])}\n---\n#{comment_created_at} (#{comment_created_at_diff} #{pluralize("day", "days", comment_created_at_diff)} ago)"
               t.add_row [colorize(comment[:user], :green), wrap(comment_text, WRAP_TEXT_AT)]
-              t.add_separator
             end
           end
         end
