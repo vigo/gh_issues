@@ -117,6 +117,7 @@ module GhIssues
       puts "Listing current GitHub repo: #{repo}" if repo == current_repo
 
       if issue_number > 0
+        markdown = Redcarpet::Markdown.new(GhIssues::TextRenderer)
         issue = GhIssues.get_issue(repo, issue_number)
         table = Terminal::Table.new do |t|
           t.add_row [colorize("Repo/Issue", :yellow), colorize("#{repo}/#{issue_number}", :white)]
@@ -135,13 +136,25 @@ module GhIssues
           created_at_diff = TimeDifference.between(now, issue[:created_at]).in_days.to_i
           updated_at_diff = TimeDifference.between(now, issue[:updated_at]).in_days.to_i
 
-          t.add_row [colorize("Created at", :yellow), "#{created_at} (#{created_at_diff} days ago)"]
-          t.add_row [colorize("Updated at", :yellow), "#{updated_at} (#{updated_at_diff} days ago)"]
+          t.add_row [colorize("Created at", :yellow), "#{created_at} (#{created_at_diff} #{pluralize("day", "days", created_at_diff)} ago)"]
+          t.add_row [colorize("Updated at", :yellow), "#{updated_at} (#{updated_at_diff} #{pluralize("day", "days", updated_at_diff)} ago)"]
           if issue[:body].length > 0
-            markdown = Redcarpet::Markdown.new(GhIssues::TextRenderer)
             body_text = markdown.render(issue[:body])
             t.add_separator
             t.add_row [colorize("Body", :yellow), wrap(body_text, WRAP_TEXT_AT)]
+          end
+          
+          if issue[:comments].length > 0
+            t.add_separator
+            t.add_row [{value: "#{colorize(pluralize('Comment', 'Comments', issue[:comments].length), :yellow)} (#{issue[:comments].length})", colspan: 2, alignment: :center}]
+            t.add_separator
+            issue[:comments].each do |comment|
+              comment_created_at = comment[:created_at].strftime(DEFAULT_DATE_FORMAT)
+              comment_created_at_diff = TimeDifference.between(now, comment[:created_at]).in_days.to_i
+              comment_text = "#{markdown.render(comment[:body])}\n---\n#{comment_created_at} (#{comment_created_at_diff} #{pluralize("day", "days", comment_created_at_diff)} ago)"
+              t.add_row [colorize(comment[:user], :green), wrap(comment_text, WRAP_TEXT_AT)]
+              t.add_separator
+            end
           end
         end
         puts table

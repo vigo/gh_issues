@@ -76,7 +76,7 @@ module GhIssues
     if ::GhIssues.ghi_access_available?
       begin
         issue = @@client.issue(repo, issue_number)
-        {
+        out = {
           number: issue[:number],
           title: issue[:title],
           user: issue[:user][:login],
@@ -91,6 +91,22 @@ module GhIssues
           exit
       end
       
+      out[:comments] = []
+      
+      begin
+        comments = @@client.issue_comments(repo, issue_number)
+        comments.each do |comment|
+            out[:comments] << {
+              user: comment[:user][:login],
+              body: comment[:body],
+              created_at: comment[:created_at],
+              updated_at: comment[:updated_at],
+            }
+        end
+      rescue Octokit::NotFound => error_message
+      end
+
+      out
     end
   end
   
