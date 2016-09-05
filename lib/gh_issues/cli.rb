@@ -102,7 +102,7 @@ module GhIssues
         in_github_repo = true if origin_url.split(':')[0] =~ /github.com/
       end
       
-      current_repo = origin_url.split(':')[1].split('.')[0] if in_github_repo
+      current_repo = origin_url.split(':')[1].split('.git')[0] if in_github_repo
       
       unless repo
         repo = current_repo if current_repo
