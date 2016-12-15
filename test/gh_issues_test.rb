@@ -36,4 +36,24 @@ class GhIssuesTest < Minitest::Test
       assert_equal true, issue.has_key?(:title)
     end
   end
+  
+  def test_are_we_under_a_github_repo
+    ssh_repo = "git@github.com:vigo/dotfiles-universal.git"
+    https_repo = "https://github.com/cloudson/gitql"
+    non_github_repo = "http://google.com"
+
+    assert_equal true, ::GhIssues.in_github_repo?(ssh_repo)
+    assert_equal true, ::GhIssues.in_github_repo?(https_repo)
+    assert_equal false, ::GhIssues.in_github_repo?(non_github_repo)
+  end
+  
+  def test_what_is_the_repo_name
+    https_repo = "https://github.com/cloudson/gitql"
+    ssh_repo = "git@github.com:vigo/dotfiles-universal.git"
+    not_a_url = "foo/bar/baz"
+    
+    assert_equal 'cloudson/gitql', ::GhIssues.get_repo_name(https_repo)
+    assert_equal 'vigo/dotfiles-universal', ::GhIssues.get_repo_name(ssh_repo)
+    assert_nil ::GhIssues.get_repo_name(not_a_url)
+  end
 end

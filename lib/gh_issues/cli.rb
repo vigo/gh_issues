@@ -95,14 +95,11 @@ module GhIssues
     def show(repo=nil, issue_number=0)
       ENV['GH_ISSUES_COLORIZE'] = '1' if options[:color]
       
-      in_github_repo = false
-      current_repo = nil
       origin_url=`git remote get-url origin 2>/dev/null`.strip
-      unless origin_url.empty?
-        in_github_repo = true if origin_url.split(':')[0] =~ /github.com/
+      current_repo = nil
+      if GhIssues.in_github_repo?(origin_url)
+        current_repo = GhIssues.get_repo_name(origin_url)
       end
-      
-      current_repo = origin_url.split(':')[1].split('.git')[0] if in_github_repo
       
       unless repo
         repo = current_repo if current_repo
@@ -112,6 +109,7 @@ module GhIssues
           repo = current_repo
         end
       end
+      
       issue_number = issue_number.to_i
 
       puts "Listing current GitHub repo: #{repo}" if repo == current_repo
