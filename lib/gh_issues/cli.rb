@@ -100,7 +100,7 @@ module GhIssues
       if GhIssues.in_github_repo?(origin_url)
         current_repo = GhIssues.get_repo_name(origin_url)
       end
-      
+
       unless repo
         repo = current_repo if current_repo
       else

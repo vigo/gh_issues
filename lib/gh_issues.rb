@@ -121,7 +121,7 @@ module GhIssues
     return nil unless ::GhIssues.in_github_repo?(url)
     https_matches = /https?\:\/\/github\.com\/(.[^\.]+)\/(.[^\.]+)/.match(url)
     return "#{https_matches[1]}/#{https_matches[2]}" if https_matches
-    ssh_matches =  /git\@github\.com\:(.[^\.]+)\/(.[^\.]+)/.match(url)
+    ssh_matches =  /git\@github\.com\:(.[^\.]+)\/(.+).git/.match(url)
     return "#{ssh_matches[1]}/#{ssh_matches[2]}" if ssh_matches
     return nil
   end
