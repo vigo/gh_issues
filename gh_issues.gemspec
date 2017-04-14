@@ -28,6 +28,6 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'terminal-table', '~> 1.6'
   spec.add_runtime_dependency 'thor', '~> 0.19.1'
   spec.add_runtime_dependency 'octokit', '~> 4.3'
-  spec.add_runtime_dependency 'time_difference', '~> 0.4.2'
+  spec.add_runtime_dependency 'time_difference', '~> 0.5.0'
   spec.add_runtime_dependency 'redcarpet', '~> 3.3', '>= 3.3.4'
 end
