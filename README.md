@@ -23,6 +23,14 @@ This is a command-line client. You can install via:
 gem install gh_issues
 ```
 
+or,
+
+```bash
+source "https://rubygems.pkg.github.com/vigo" do
+  gem "gh_issues"
+end
+```
+
 ## Usage
 
 You need to create a [GitHub token](https://github.com/settings/tokens/new) or 
@@ -233,6 +241,8 @@ release a new version, update the version number in `version.rb`, and then
 run `bundle exec rake release`, which will create a git tag for the version, 
 push git commits and tags, and push the `.gem` file to 
 [rubygems.org](https://rubygems.org).
+
+Or, you can use `bumpversion` (python) too :)
 
 ## Contributing
 
