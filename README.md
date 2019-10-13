@@ -25,7 +25,7 @@ gem install gh_issues
 or,
 
 ```bash
-gem "@vigo/gh_issues" ~> "0.4.6"
+gem "@vigo/gh_issues" ~> "0.4.7"
 ```
 
 ## Usage
