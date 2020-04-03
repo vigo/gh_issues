@@ -19,13 +19,13 @@ I need this tool for couple of reasons:
 This is a command-line client. You can install via:
 
 ```bash
-gem install gh_issues
+$ gem install gh_issues
 ```
 
 or,
 
 ```bash
-gem "@vigo/gh_issues" ~> "0.4.7"
+$ gem install gh_issues --version "0.4.7" --source "https://rubygems.pkg.github.com/vigo"
 ```
 
 ## Usage

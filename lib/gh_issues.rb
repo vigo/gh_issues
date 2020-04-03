@@ -13,8 +13,9 @@ module GhIssues
 
   def self.check_ghi_github_credentials
     begin
-      user = @@client.user
+      @@client.user
     rescue Octokit::Unauthorized => error_message
+      puts error_message
       raise ::GhIssues::GitHubBadCredentialsError, "Bad GitHub credentials."
     end
   end
@@ -87,6 +88,7 @@ module GhIssues
           updated_at: issue[:updated_at],
         }
       rescue Octokit::NotFound => error_message
+          puts error_message
           puts "Incorrect issue number (#{issue_number})"
           exit
       end

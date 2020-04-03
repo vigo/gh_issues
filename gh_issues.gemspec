@@ -20,15 +20,15 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency 'bundler', '~> 2.0'
-  spec.add_development_dependency 'rake', '~> 10.0'
-  spec.add_development_dependency 'minitest', '~> 5.0'
-  spec.add_development_dependency 'minitest-reporters', '~> 1.4', '>= 1.4.1'
-  spec.add_development_dependency 'pry', '0.12.2'
+  spec.add_development_dependency 'bundler', '~> 2.1', '>= 2.1.4'
+  spec.add_development_dependency 'rake', '~> 13.0', '>= 13.0.1'
+  spec.add_development_dependency 'minitest', '~> 5.14'
+  spec.add_development_dependency 'minitest-reporters', '~> 1.4', '>= 1.4.2'
+  spec.add_development_dependency 'pry', '~> 0.13.0'
 
   spec.add_runtime_dependency 'terminal-table', '~> 1.8'
-  spec.add_runtime_dependency 'thor', '~> 0.20.3'
-  spec.add_runtime_dependency 'octokit', '~> 4.14'
+  spec.add_runtime_dependency 'thor', '~> 1.0', '>= 1.0.1'
+  spec.add_runtime_dependency 'octokit', '~> 4.18'
   spec.add_runtime_dependency 'time_difference', '~> 0.7.0'
   spec.add_runtime_dependency 'redcarpet', '~> 3.5'
 end
