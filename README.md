@@ -25,7 +25,7 @@ $ gem install gh_issues
 or,
 
 ```bash
-$ gem install gh_issues --version "0.4.7" --source "https://rubygems.pkg.github.com/vigo"
+$ gem install gh_issues --version "0.4.8" --source "https://rubygems.pkg.github.com/vigo"
 ```
 
 ## Usage
