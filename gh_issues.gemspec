@@ -11,8 +11,8 @@ Gem::Specification.new do |spec|
 
   spec.summary       = %q{Manage your GitHub issues from command-line.}
   spec.description   = %q{Manage your GitHub issues from command-line.}
-  spec.homepage      = "https://github.com/vigo/gh-issues"
-  spec.metadata      = {"github_repo" => "ssh://github.com/vigo/gh-issues"}
+  spec.homepage      = "https://github.com/vigo/gh_issues"
+  spec.metadata      = {"github_repo" => "ssh://github.com/vigo/gh_issues"}
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
