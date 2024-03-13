@@ -1,5 +1,4 @@
 [![Gem Version](https://badge.fury.io/rb/gh_issues.svg)](https://badge.fury.io/rb/gh_issues)
-[![Build Status](https://travis-ci.org/vigo/gh_issues.svg?branch=master)](https://travis-ci.org/vigo/gh_issues)
 ![Powered by Rake](https://img.shields.io/badge/powered_by-rake-blue?logo=ruby)
 
 # GitHub Issues
